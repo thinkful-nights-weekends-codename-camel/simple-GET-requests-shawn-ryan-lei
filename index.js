@@ -29,3 +29,17 @@ $(function() {
   console.log('App loaded! Waiting for submit!');
   watchForm();
 });
+
+
+/* app that lets users choose to display between 1 - 50 random dog images
+    - prints the results to the console
+    - App should feature form with ** required ** input
+        - user must indicate number of images to retrieve
+            - input default is 3
+    
+    - Use the Endpoint described in 
+        "DISPLAY MULTIPLE RANDOM IMAGES FROM ALL DOGS COLLECTION" section
+
+        https://dog.ceo/api/breeds/image/random/3
+        max number is 50
+*/
