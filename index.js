@@ -1,5 +1,6 @@
 'use strict';
 function getDogBreeds() {
+    // gets list of breeds (not sub-breeds) from Dog API
     fetch(`https://dog.ceo/api/breeds/list/all`)
     .then(response => response.json())
     .then(responseJson => 
@@ -16,13 +17,15 @@ function createDropDownList(responseJson) {
         // selection dropdown will look similar to displayResults
     let dogBreedsList = Object.keys(responseJson.message);  // array of breeds from object
 //    console.log(dogBreedsList);
-    dogBreedsList.push('t-rex');
-    let dogBreedOptions = `<select id="userDogBreed" name="breeds">`;
+    dogBreedsList.push('t-rex');    // adds fake breed
+    let dogBreedOptions = `<select id="userDogBreed" name="breeds">`; 
+                            // use this id to get user's selected breed
     for(let i = 0; i < dogBreedsList.length; i++) {
         dogBreedOptions += `<option value="${dogBreedsList[i]}">${dogBreedsList[i]}</option>`;
     }
     dogBreedOptions += `</select>`;
-    $(dogBreedOptions).insertBefore("#dogBreed");
+    $(dogBreedOptions).insertBefore("#dogBreed");  
+    // put this selection before submit button
 }
 
 function getDogImage(userDogBreed) {
@@ -33,14 +36,14 @@ function getDogImage(userDogBreed) {
     .catch(error => alert('Something went wrong. Try again later.'));
 }
 
-function logResults(responseJson) {
-  responseJson.message.forEach(item => {
-    console.log(item);
-  });
-}
+// function logResults(responseJson) {
+//   responseJson.message.forEach(item => {
+//     console.log(item);
+//   });
+// }
 
 function displayResults(responseJson) {
-    console.log(responseJson);
+    // console.log(responseJson);
     //replace the existing image with the new one
     $('.results-img').replaceWith(
       `<img src="${responseJson.message}" class="results-img">`
@@ -85,10 +88,14 @@ $(function() {
             - It should also account for the unhappy case when the breed is NOT found
         - Use the endpoint described in "RANDOM IMAGE FROM A BREED COLLECTION"
     
-        - this API will return an HTTP status code of 404 along with a JSOn object
-          with info about the error if a request is made for a breed that can't be found
+            
+            make a call to the API
+                - find out the breeds
+                - build form for legal breeds
 
-        make a call to the API
-            - find out the breeds
-            - build form for legal breeds
+        *****
+        - this API will return an HTTP status code of 404 along with a JSON object
+          with info about the error if a request is made for a breed that can't be found
+        ******
+
 */
