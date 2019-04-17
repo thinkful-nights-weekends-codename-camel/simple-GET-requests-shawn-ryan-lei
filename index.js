@@ -1,11 +1,18 @@
 'use strict';
 
-function getDogImage() {
-  fetch('https://dog.ceo/api/breeds/image/random')
+function getDogImage(dogCount) {
+ fetch(`https://dog.ceo/api/breeds/image/random/${dogCount}`)
     .then(response => response.json())
     .then(responseJson => 
-      displayResults(responseJson))
+        logResults(responseJson))
+     // displayResults(responseJson))
     .catch(error => alert('Something went wrong. Try again later.'));
+}
+
+function logResults(responseJson) {
+  responseJson.message.forEach(item => {
+    console.log(item);
+  });
 }
 
 function displayResults(responseJson) {
@@ -21,7 +28,10 @@ function displayResults(responseJson) {
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
-    getDogImage();
+    let dogCount = $("#userDogsRequested").val();
+    $("#userDogsRequested").val("3");
+
+    getDogImage(dogCount);
   });
 }
 
