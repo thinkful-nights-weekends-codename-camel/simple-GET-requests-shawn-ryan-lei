@@ -1,11 +1,10 @@
 'use strict';
 
-function getDogImage(dogCount) {
+function getDogImages(dogCount) {
  fetch(`https://dog.ceo/api/breeds/image/random/${dogCount}`)
     .then(response => response.json())
     .then(responseJson => 
-        logResults(responseJson))
-     // displayResults(responseJson))
+        displayResults(responseJson))
     .catch(error => alert('Something went wrong. Try again later.'));
 }
 
@@ -16,11 +15,16 @@ function logResults(responseJson) {
 }
 
 function displayResults(responseJson) {
-  console.log(responseJson);
+  let listOfDogPictures = responseJson.message;
+  let dogPicsHTML = '';
+  for(let i = 0; i < listOfDogPictures.length; i++) {
+    dogPicsHTML += `<img src="${listOfDogPictures[i]}" class="results-img">`;
+  }
+
+  //console.log(dogPicsHTML);
+
   //replace the existing image with the new one
-  $('.results-img').replaceWith(
-    `<img src="${responseJson.message}" class="results-img">`
-  )
+  $('.results-img').replaceWith(dogPicsHTML);
   //display the results section
   $('.results').removeClass('hidden');
 }
@@ -31,7 +35,7 @@ function watchForm() {
     let dogCount = $("#userDogsRequested").val();
     $("#userDogsRequested").val("3");
 
-    getDogImage(dogCount);
+    getDogImages(dogCount);
   });
 }
 
