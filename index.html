@@ -13,8 +13,9 @@
         <h1>Dog API: A Simple Example</h1>
 
         <form>
-            
-            <input id="dogBreed" type="submit" value="Get dog pic!">
+            <label for="dogCount">Number of Dog Pics (1-50):</label>
+            <input type="number" id="userDogsRequested" name="dogCount" value="3" min="1" max="50">
+            <input type="submit" value="Get dog pic(s)!">
         </form>
         <section class="results hidden">
             <h2>Look at this dog!</h2>
