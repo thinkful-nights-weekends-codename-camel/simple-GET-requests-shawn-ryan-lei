@@ -40,7 +40,8 @@ function getDogImage(userDogBreed) {
        displayResults(responseJson))
     .catch(error => {
       $('.results').removeClass('hidden');
-      $('h2').text(`Something went wrong: ${error}`);  // error.message is not working?
+      $('h2').text(`Something went wrong: ${error}`) // error.message is not working?
+  });
 }
 
 // function logResults(responseJson) {
