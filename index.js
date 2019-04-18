@@ -1,38 +1,9 @@
 'use strict';
-function getDogBreeds() {
-    // gets list of breeds (not sub-breeds) from Dog API
-    fetch(`https://dog.ceo/api/breeds/list/all`)
+function getDogImages(dogCount) {
+    fetch(`https://dog.ceo/api/breeds/image/random/${dogCount}`)
     .then(response => response.json())
     .then(responseJson => 
-        createDropDownList(responseJson))
-    .catch(error => alert('Something went wrong. Try again later.'));
-}
-
-function createDropDownList(responseJson) {
-    // creates a dropdown of breeds for user to select
-    // value and text = a dog breed 
-        // needs to be an item from the array of responseJson.message
-        // get a list of the keys (breeds)
-        // use list of keys to build HTML - > list of options for user select
-        // selection dropdown will look similar to displayResults
-    let dogBreedsList = Object.keys(responseJson.message);  // array of breeds from object
-//    console.log(dogBreedsList);
-    dogBreedsList.push('t-rex');    // adds fake breed
-    let dogBreedOptions = `<select id="userDogBreed" name="breeds">`; 
-                            // use this id to get user's selected breed
-    for(let i = 0; i < dogBreedsList.length; i++) {
-        dogBreedOptions += `<option value="${dogBreedsList[i]}">${dogBreedsList[i]}</option>`;
-    }
-    dogBreedOptions += `</select>`;
-    $(dogBreedOptions).insertBefore("#dogBreed");  
-    // put this selection before submit button
-}
-
-function getDogImage(userDogBreed) {
- fetch(`https://dog.ceo/api/breed/${userDogBreed}/images/random`)
-    .then(response => response.json())
-    .then(responseJson => 
-       displayResults(responseJson))
+        displayResults(responseJson))
     .catch(error => alert('Something went wrong. Try again later.'));
 }
 
@@ -43,11 +14,13 @@ function getDogImage(userDogBreed) {
 // }
 
 function displayResults(responseJson) {
-    // console.log(responseJson);
-    //replace the existing image with the new one
-    $('.results-img').replaceWith(
-      `<img src="${responseJson.message}" class="results-img">`
-    )
+    let listOfDogPictures = responseJson.message;
+    let dogPicsHTML = '';
+    for(let i = 0; i < listOfDogPictures.length; i++) {
+      dogPicsHTML += `<img src="${listOfDogPictures[i]}" class="results-img" alt="random dog!">`;
+    }
+    console.log(dogPicsHTML);
+    $('.results').html(dogPicsHTML);
     //display the results section
     $('.results').removeClass('hidden');
   }
@@ -55,16 +28,15 @@ function displayResults(responseJson) {
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
-    let userDogBreed = $("#userDogBreed").val();
-    // $("#userDogBreed").val("");
-    getDogImage(userDogBreed);
+    let dogCount = $("#userDogsRequested").val();
+    $("#userDogsRequested").val("3");
+    getDogImages(dogCount);
   });
 }
 
 $(function() {
   console.log('App loaded! Waiting for submit!');
   watchForm();
-  getDogBreeds();
 });
 
 
@@ -81,21 +53,4 @@ $(function() {
         max number is 50
 
     2. building on previous app, display the pics on the DOM
-
-    3. Create an app that loads a single random image for a specific breed
-        - based on the user's input
-            - This app should account for the happy case when the breed is found
-            - It should also account for the unhappy case when the breed is NOT found
-        - Use the endpoint described in "RANDOM IMAGE FROM A BREED COLLECTION"
-    
-            
-            make a call to the API
-                - find out the breeds
-                - build form for legal breeds
-
-        *****
-        - this API will return an HTTP status code of 404 along with a JSON object
-          with info about the error if a request is made for a breed that can't be found
-        ******
-
 */
